@@ -1,65 +1,65 @@
 package com.jfranceschini.library;
 
 public class LibraryMember {
-	private String first_name;
-	private String last_name;
-	private Book book_checked_out;
+	private String firstName;
+	private String lastName;
+	private Book bookCheckedOut;
 	
-	public LibraryMember(String first_name, String last_name) {
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.book_checked_out = null;
+	public LibraryMember(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.bookCheckedOut = null;
 	}
 	
 	public void checkOutBook(Book book) {
-		if (book_checked_out == null && !book.isChecked_out()) {
-			setBook_checked_out(book);
-			book.setChecked_out(true);
-			book.setChecker_outer(this);
-			System.out.println(first_name + " " + last_name + " checked out " + book.getTitle() + ".");
+		if (bookCheckedOut == null && !book.isCheckedOut()) {
+			setBookCheckedOut(book);
+			book.setCheckedOut(true);
+			book.setCheckerOuter(this);
+			System.out.println(firstName + " " + lastName + " checked out " + book.getTitle() + ".");
 		} else {
-			System.out.println(first_name + " " + last_name + " failed to check out " + book.getTitle() + ".");
-			if (book_checked_out != null) {
-				System.out.println(first_name + " " + last_name + " must return " + book_checked_out.getTitle() + " first.");
+			System.out.println(firstName + " " + lastName + " failed to check out " + book.getTitle() + ".");
+			if (bookCheckedOut != null) {
+				System.out.println(firstName + " " + lastName + " must return " + bookCheckedOut.getTitle() + " first.");
 			}
-			if (book.isChecked_out()) {
-				System.out.println(book.getChecker_outer().getFirst_name() + " " +
-					book.getChecker_outer().getLast_name() + " has already checked out " +
+			if (book.isCheckedOut()) {
+				System.out.println(book.getCheckerOuter().getFirstName() + " " +
+					book.getCheckerOuter().getLastName() + " has already checked out " +
 					book.getTitle() + ".");
 			}
 		}
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public Book getBook_checked_out() {
-		return book_checked_out;
+	public Book getBookCheckedOut() {
+		return bookCheckedOut;
 	}
 
-	public void setBook_checked_out(Book book_checked_out) {
-		this.book_checked_out = book_checked_out;
+	public void setBookCheckedOut(Book bookCheckedOut) {
+		this.bookCheckedOut = bookCheckedOut;
 	}
 
 	@Override
 	public String toString() {
 		String output = "*******LibraryMember*******" +
-				"\nName: " + first_name + " " + last_name;
-		if (book_checked_out != null) {
-			output += "\nBook: " + book_checked_out.toString();
+				"\nName: " + firstName + " " + lastName;
+		if (bookCheckedOut != null) {
+			output += "\nBook: " + bookCheckedOut.toString();
 		} else {
 			output += "\nBook: none";
 		}

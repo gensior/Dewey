@@ -5,20 +5,12 @@ import java.util.Date;
 public class Book {
 	private String title;
 	private String author;
-	private Date published_date;
+	private Date publishedDate;
 	private String publisher;
-	private boolean checked_out;
-	private LibraryMember checker_outer;
-	
-	public LibraryMember getChecker_outer() {
-		return checker_outer;
-	}
+	private boolean checkedOut;
+	private LibraryMember checkerOuter;
 
-	public void setChecker_outer(LibraryMember checker_outer) {
-		this.checker_outer = checker_outer;
-	}
-
-	public Book(String title, String author, String publisher, Date published_date) {
+	public Book(String title, String author, String publisher, Date publishedDate) {
 		this.title = title;
 		if (author != null && author.length() > 0) {
 			this.author = author;
@@ -26,47 +18,64 @@ public class Book {
 			this.author = "Anonymous";
 		}
 		this.publisher = publisher;
-		this.published_date = published_date;
-		this.checked_out = false;
+		this.publishedDate = publishedDate;
+		this.checkedOut = false;
 	}
 	
 	public void printStatus() {
-		if (this.checked_out) {
-			System.out.println("Book is checked out.");
+		if (this.checkedOut) {
+			System.out.println("\"" + title + "\" is checked out.");
 		} else {
-			System.out.println("Book is not checked out.");
+			System.out.println("\"" + title + "\" is not checked out.");
 		}
 	}
 	
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 	public String getAuthor() {
 		return author;
 	}
+	
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public Date getPublished_date() {
-		return published_date;
+	
+	public Date getPublishedDate() {
+		return publishedDate;
 	}
-	public void setPublished_date(Date published_date) {
-		this.published_date = published_date;
+	
+	public void setPublishedDate(Date publishedDate) {
+		this.publishedDate = publishedDate;
 	}
+	
 	public String getPublisher() {
 		return publisher;
 	}
+	
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	public boolean isChecked_out() {
-		return checked_out;
+	
+	public boolean isCheckedOut() {
+		return checkedOut;
 	}
-	public void setChecked_out(boolean checked_out) {
-		this.checked_out = checked_out;
+	
+	public void setCheckedOut(boolean checkedOut) {
+		this.checkedOut = checkedOut;
+	}
+	
+	public LibraryMember getCheckerOuter() {
+		return checkerOuter;
+	}
+
+	public void setCheckerOuter(LibraryMember checkerOuter) {
+		this.checkerOuter = checkerOuter;
 	}
 
 	@Override
@@ -74,9 +83,9 @@ public class Book {
 		return "*******Book*******" +
 				"\nTitle: " + title + 
 				"\nAuthor: " + author + 
-				"\nPublished At: " + published_date + 
+				"\nPublished At: " + publishedDate + 
 				"\nPublisher: " + publisher + 
-				"\nChecked Out: " + checked_out;
+				"\nChecked Out: " + checkedOut;
 	}
 	
 	
