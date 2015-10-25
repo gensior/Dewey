@@ -26,9 +26,7 @@ public class LibraryDriver {
 		System.out.println(book3);
 		Book book4 = new Book("Stuff and Things",
 				"Mr. Guy",
-				"Book Publishers",
-				2015,
-				8);
+				"Book Publishers");
 		System.out.println(book4);
 		LibraryMember member1 = new LibraryMember("Jesse", "Franceschini");
 		LibraryMember member2 = new LibraryMember("Homer", "Simpson");
