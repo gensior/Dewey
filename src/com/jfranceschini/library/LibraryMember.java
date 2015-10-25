@@ -12,12 +12,21 @@ public class LibraryMember {
 	}
 	
 	public void checkOutBook(Book book) {
-		if (!book.isChecked_out()) {
+		if (book_checked_out == null && !book.isChecked_out()) {
 			setBook_checked_out(book);
 			book.setChecked_out(true);
-			System.out.println("User checked out book.");
+			book.setChecker_outer(this);
+			System.out.println(first_name + " " + last_name + " checked out " + book.getTitle() + ".");
 		} else {
-			System.out.println("User failed to check out book.");
+			System.out.println(first_name + " " + last_name + " failed to check out " + book.getTitle() + ".");
+			if (book_checked_out != null) {
+				System.out.println(first_name + " " + last_name + " must return " + book_checked_out.getTitle() + " first.");
+			}
+			if (book.isChecked_out()) {
+				System.out.println(book.getChecker_outer().getFirst_name() + " " +
+					book.getChecker_outer().getLast_name() + " has already checked out " +
+					book.getTitle() + ".");
+			}
 		}
 	}
 
@@ -43,6 +52,18 @@ public class LibraryMember {
 
 	public void setBook_checked_out(Book book_checked_out) {
 		this.book_checked_out = book_checked_out;
+	}
+
+	@Override
+	public String toString() {
+		String output = "*******LibraryMember*******" +
+				"\nName: " + first_name + " " + last_name;
+		if (book_checked_out != null) {
+			output += "\nBook: " + book_checked_out.toString();
+		} else {
+			output += "\nBook: none";
+		}
+		return output;
 	}
 	
 	
