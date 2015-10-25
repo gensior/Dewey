@@ -9,6 +9,14 @@ public class Book {
 	private String publisher;
 	private boolean checked_out;
 	
+	public Book(String title, String author, String publisher, Date published_date) {
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.published_date = published_date;
+		this.checked_out = false;
+	}
+	
 	public void printStatus() {
 		if (this.checked_out) {
 			System.out.println("Book is checked out.");
