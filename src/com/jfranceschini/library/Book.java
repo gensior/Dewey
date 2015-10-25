@@ -1,6 +1,7 @@
 package com.jfranceschini.library;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Book {
 	private String title;
@@ -10,7 +11,7 @@ public class Book {
 	private boolean checkedOut;
 	private LibraryMember checkerOuter;
 
-	public Book(String title, String author, String publisher, Date publishedDate) {
+	public Book(String title, String author, String publisher, int year, int month, int day) {
 		this.title = title;
 		if (author != null && author.length() > 0) {
 			this.author = author;
@@ -18,8 +19,24 @@ public class Book {
 			this.author = "Anonymous";
 		}
 		this.publisher = publisher;
-		this.publishedDate = publishedDate;
+		if (year == 0){
+			this.publishedDate = new GregorianCalendar().getTime();
+		} else {
+			this.publishedDate = new GregorianCalendar(year, month, day).getTime();
+		}
 		this.checkedOut = false;
+	}
+	
+	public Book(String title, String author, String publisher) {
+		this(title, author, publisher, 0, 0, 1);
+	}
+	
+	public Book(String title, String author, String publisher, int year) {
+		this(title, author, publisher, year, 0, 1);
+	}
+	
+	public Book(String title, String author, String publisher, int year, int month) {
+		this(title, author, publisher, year, month, 1);
 	}
 	
 	public void printStatus() {
@@ -87,6 +104,4 @@ public class Book {
 				"\nPublisher: " + publisher + 
 				"\nChecked Out: " + checkedOut;
 	}
-	
-	
 }

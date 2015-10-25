@@ -1,7 +1,5 @@
 package com.jfranceschini;
 
-import java.util.Date;
-
 import com.jfranceschini.library.Book;
 import com.jfranceschini.library.LibraryMember;
 
@@ -10,23 +8,28 @@ public class LibraryDriver {
 		Book book1 = new Book("Green Eggs and Ham", 
 				"Dr. Seuss", 
 				"Scholastic", 
-				new Date(111111111));
-		// System.out.println(book1);
+				1889,
+				1,
+				10);
+		System.out.println(book1);
 		Book book2 = new Book("Hello World",
 				"",
 				"",
-				new Date(222222222));
-		// System.out.println(book2);
+				1999,
+				11,
+				31);
+		System.out.println(book2);
 		Book book3 = new Book("How to Serve Man",
 				"Kodos",
 				"Intergalactic Press",
-				new Date(999999999));
-		// System.out.println(book3);
+				1994);
+		System.out.println(book3);
 		Book book4 = new Book("Stuff and Things",
 				"Mr. Guy",
 				"Book Publishers",
-				new Date(333333333));
-		// System.out.println(book4);
+				2015,
+				8);
+		System.out.println(book4);
 		LibraryMember member1 = new LibraryMember("Jesse", "Franceschini");
 		LibraryMember member2 = new LibraryMember("Homer", "Simpson");
 		LibraryMember member3 = new LibraryMember("Lisa", "Simpson");

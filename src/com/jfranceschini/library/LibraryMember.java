@@ -16,16 +16,16 @@ public class LibraryMember {
 			setBookCheckedOut(book);
 			book.setCheckedOut(true);
 			book.setCheckerOuter(this);
-			System.out.println(firstName + " " + lastName + " checked out " + book.getTitle() + ".");
+			System.out.println(firstName + " " + lastName + " checked out \"" + book.getTitle() + "\".");
 		} else {
-			System.out.println(firstName + " " + lastName + " failed to check out " + book.getTitle() + ".");
+			System.out.println(firstName + " " + lastName + " failed to check out \"" + book.getTitle() + "\".");
 			if (bookCheckedOut != null) {
-				System.out.println(firstName + " " + lastName + " must return " + bookCheckedOut.getTitle() + " first.");
+				System.out.println(firstName + " " + lastName + " must return \"" + bookCheckedOut.getTitle() + "\" first.");
 			}
 			if (book.isCheckedOut()) {
 				System.out.println(book.getCheckerOuter().getFirstName() + " " +
-					book.getCheckerOuter().getLastName() + " has already checked out " +
-					book.getTitle() + ".");
+					book.getCheckerOuter().getLastName() + " has already checked out \"" +
+					book.getTitle() + "\".");
 			}
 		}
 	}
