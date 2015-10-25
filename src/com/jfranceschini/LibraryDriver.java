@@ -10,11 +10,21 @@ public class LibraryDriver {
 				"Dr. Seuss", 
 				"Scholastic", 
 				new Date(111111111));
-		System.out.println(book1);
+		// System.out.println(book1);
 		Book book2 = new Book("Hello World",
 				"",
 				"",
 				new Date(222222222));
-		System.out.println(book2);
+		// System.out.println(book2);
+		Book book3 = new Book("How to Serve Man",
+				"Kodos",
+				"Intergalactic Press",
+				new Date(999999999));
+		System.out.println(book3);
+		Book book4 = new Book("Stuff and Things",
+				"Mr. Guy",
+				"Book Publishers",
+				new Date(333333333));
+		System.out.println(book4);
 	}
 }
