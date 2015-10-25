@@ -11,7 +11,11 @@ public class Book {
 	
 	public Book(String title, String author, String publisher, Date published_date) {
 		this.title = title;
-		this.author = author;
+		if (author != null && author.length() > 0) {
+			this.author = author;
+		} else {
+			this.author = "Anonymous";
+		}
 		this.publisher = publisher;
 		this.published_date = published_date;
 		this.checked_out = false;
@@ -54,6 +58,12 @@ public class Book {
 	}
 	public void setChecked_out(boolean checked_out) {
 		this.checked_out = checked_out;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [title=" + title + ", author=" + author + ", published_date=" + published_date + ", publisher="
+				+ publisher + ", checked_out=" + checked_out + "]";
 	}
 	
 	
