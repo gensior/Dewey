@@ -8,7 +8,16 @@ public class Book {
 	private Date published_date;
 	private String publisher;
 	private boolean checked_out;
+	private LibraryMember checker_outer;
 	
+	public LibraryMember getChecker_outer() {
+		return checker_outer;
+	}
+
+	public void setChecker_outer(LibraryMember checker_outer) {
+		this.checker_outer = checker_outer;
+	}
+
 	public Book(String title, String author, String publisher, Date published_date) {
 		this.title = title;
 		if (author != null && author.length() > 0) {
