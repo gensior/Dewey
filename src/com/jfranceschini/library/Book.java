@@ -139,7 +139,7 @@ public class Book {
 	/**
 	 * Sets the book's title
 	 * 
-	 * @param title
+	 * @param title a String of the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -157,7 +157,7 @@ public class Book {
 	/**
 	 * Sets the book's author
 	 * 
-	 * @param author
+	 * @param author a String of the new author
 	 */
 	public void setAuthor(String author) {
 		this.author = author;
@@ -177,9 +177,9 @@ public class Book {
 	 * 
 	 * Uses the GregorianCalendar class to allow input to be in integers.
 	 * 
-	 * @param year
-	 * @param month
-	 * @param day
+	 * @param year an integer of the publish date year
+	 * @param month an integer of the publish date month
+	 * @param day an integer of the publish date day
 	 */
 	public void setPublishedDate(int year, int month, int day) {
 		this.publishedDate = new GregorianCalendar(year, month, day).getTime();
@@ -197,7 +197,7 @@ public class Book {
 	/**
 	 * Sets the book's publisher
 	 * 
-	 * @param publisher
+	 * @param publisher a String of the new publisher
 	 */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
@@ -215,7 +215,7 @@ public class Book {
 	/**
 	 * Sets the book's checkedOut value
 	 * 
-	 * @param checkedOut
+	 * @param checkedOut a boolean of the book's checked-out status
 	 */
 	public void setCheckedOut(boolean checkedOut) {
 		this.checkedOut = checkedOut;
@@ -233,7 +233,7 @@ public class Book {
 	/**
 	 * Sets the LibraryMember that is checking out the book
 	 * 
-	 * @param checkerOuter
+	 * @param checkerOuter a LibraryMember of the person checking the book out
 	 */
 	public void setCheckerOuter(LibraryMember checkerOuter) {
 		this.checkerOuter = checkerOuter;
