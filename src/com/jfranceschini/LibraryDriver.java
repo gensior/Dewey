@@ -46,17 +46,19 @@ public class LibraryDriver {
 				"Mr. Guy",
 				"Book Publishers");
 		System.out.println(book4);
-		// Instantiate some LibraryMembers
+		// Instantiate five LibraryMembers
 		LibraryMember member1 = new LibraryMember("Jesse", "Franceschini");
 		LibraryMember member2 = new LibraryMember("Homer", "Simpson");
 		LibraryMember member3 = new LibraryMember("Lisa", "Simpson");
 		LibraryMember member4 = new LibraryMember("Marge", "Simpson");
 		LibraryMember member5 = new LibraryMember("Bart", "Simpson");
 		member1.checkOutBook(book1);
+		// Attempts to check out more than one book
 		member1.checkOutBook(book2);
 		member2.checkOutBook(book2);
 		member3.checkOutBook(book3);
 		member4.checkOutBook(book4);
+		// Attempts to check out a book that's already been checked out
 		member5.checkOutBook(book1);
 	}
 }
