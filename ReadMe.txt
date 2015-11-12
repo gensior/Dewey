@@ -2,6 +2,7 @@ Assignment 02 - Jesse Franceschini
 ==================================
 
 Main Assignment:
+================
 
 To run the assignment, unzip the directory, cd into it, and 
 enter the following into the command line:
@@ -12,25 +13,22 @@ Then:
 
 java -cp ./src com/jfranceschini/LibraryDriver
 
-BONUS 1:
+Design Decisions:
+=================
+Enforcement of checkout rules occurs at the Library class
+level, rather than the LibraryMember or Book class levels.
+I did this because it seemed like a natural place to put
+the responsibility of handling checkout validation, the
+Library is the object that knows the most about the
+situation to handle whether all conditions are met.
 
-	The checkOutBook method in the LibraryMember class contains
-extra logic to explain the nature of the checkout failure.
 
-If the LibraryMember already has a book in their possession, a
-message explaining that the already checked out book must be
-returned is printed in the console.
+Why Set or List?
+================
 
-If the Book is checked out by a different member, a message
-explaining that a LibraryMember must return their book first is
-printed to the console. Thanks to the Book's getCheckerOuter
-method, information about the LibraryMember that checked out the
-book can be used for the message.
-
-BONUS 2:
-
-	See the file named UML.png for the UML diagram for this bonus.
-I was unsure of how to show that the Book class makes a reference
-to the LibraryMember class and vice versa, so I placed an
-un-arrowed line between both classes since the association goes
-both ways.
+In this assignment, I chose to use a Set to hold the books
+that a LibraryMember currently has checked out. There was
+really only one reason Set won out over List, and that was
+because Set gracefully allows only one object of equal value
+at a time to exist in a Set, whereas a Book added to a List 
+must be checked by hand to ensure duplication doesn't happen.
