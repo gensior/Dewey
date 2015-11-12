@@ -17,5 +17,37 @@ public class Library {
 		this.name = name;
 	}
 
+	public void checkoutBook(LibraryMember member, String sbnNumber) {
+		
+		// Double membership already taken care of by set
+		members.add(member);
+		
+		Book book = bookMap.get(sbnNumber);
+		
+		if (book != null && !book.isCheckedOut() && member.getCheckedOutBooks().size() < CHECKOUT_LIMIT) {
+			member.checkOutBook(book);
+		} else {
+			System.out.println("Error");
+		}
+	}
 	
+	public void returnBook(LibraryMember member, Book book) {
+		if (member.returnBook(book)) {
+			book.setCheckedOut(false);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Library: " + this.name + "\n");
+		stringBuilder.append("Books:\n");
+		for (Book book : bookMap.values()) {
+			stringBuilder.append("-- " + book.toString() + "\n");
+		}
+		for (LibraryMember member: members) {
+			stringBuilder.append(member.toString() + "\n");
+		}
+		return stringBuilder.toString();
+	}
 }

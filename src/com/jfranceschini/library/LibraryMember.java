@@ -1,5 +1,7 @@
 package com.jfranceschini.library;
 
+import java.util.Set;
+
 /**
  * Library Member
  * @author Jesse Franceschini
@@ -18,6 +20,8 @@ public class LibraryMember {
 	 * Book that the library member has checked out
 	 */
 	private Book bookCheckedOut;
+	
+	private Set<Book> checkedOutBooks;
 	
 	/**
 	 * Constructor for the LibraryMember
@@ -45,29 +49,12 @@ public class LibraryMember {
 	 * @param book the Book object to be checked out
 	 */
 	public void checkOutBook(Book book) {
-		// If the book is not checked out and the LibraryMember has no book checked out
-		if (bookCheckedOut == null && !book.isCheckedOut()) {
-			// Set the book in the LibraryMember
-			setBookCheckedOut(book);
-			// Set the book's checked out status
-			book.setCheckedOut(true);
-			// Register the LibraryMember with the book so it knows who checked it out
-			book.setCheckerOuter(this);
-			System.out.println(firstName + " " + lastName + " checked out \"" + book.getTitle() + "\".");
-		} else {
-			// Otherwise the book can't be checked out
-			System.out.println(firstName + " " + lastName + " failed to check out \"" + book.getTitle() + "\".");
-			if (bookCheckedOut != null) {
-				// Because the LibraryMember already has a book checked out
-				System.out.println(firstName + " " + lastName + " must return \"" + bookCheckedOut.getTitle() + "\" first.");
-			}
-			if (book.isCheckedOut()) {
-				// Or because the book's been checked out by another LibraryMember
-				System.out.println(book.getCheckerOuter().getFirstName() + " " +
-					book.getCheckerOuter().getLastName() + " has already checked out \"" +
-					book.getTitle() + "\".");
-			}
-		}
+		book.setCheckedOut(checkedOutBooks.add(book));
+	}
+	
+	public boolean returnBook(Book book) {
+		book.setCheckedOut(false);
+		return checkedOutBooks.remove(book);
 	}
 
 	/**
@@ -113,6 +100,10 @@ public class LibraryMember {
 	 */
 	public Book getBookCheckedOut() {
 		return bookCheckedOut;
+	}
+	
+	public Set<Book> getCheckedOutBooks() {
+		return this.checkedOutBooks;
 	}
 
 	/**
