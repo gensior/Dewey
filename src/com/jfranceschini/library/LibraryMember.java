@@ -1,5 +1,6 @@
 package com.jfranceschini.library;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -8,20 +9,12 @@ import java.util.Set;
  *
  */
 public class LibraryMember {
-	/**
-	 * First name of library member
-	 */
+	/** First name of library member */
 	private String firstName;
-	/**
-	 * Last name of library member
-	 */
+	/** Last name of library member */
 	private String lastName;
-	/**
-	 * Book that the library member has checked out
-	 */
-	private Book bookCheckedOut;
-	
-	private Set<Book> checkedOutBooks;
+	/** A set of books that the library member has currently checked out */
+	private Set<Book> checkedOutBooks = new HashSet<Book>();
 	
 	/**
 	 * Constructor for the LibraryMember
@@ -37,7 +30,6 @@ public class LibraryMember {
 		// Sets the last name of the library member
 		this.lastName = lastName;
 		// By default, no book can be checked out on instantiation
-		this.bookCheckedOut = null;
 	}
 	
 	/**
@@ -52,67 +44,35 @@ public class LibraryMember {
 		book.setCheckedOut(checkedOutBooks.add(book));
 	}
 	
+	/**
+	 * returnBook
+	 * 
+	 * Removes a book from the checkedOutBooks set and sets the book's checkedOut boolean to false.
+	 * @param book a Book object to return
+	 * @return a boolean of whether removing the book from the checkedOutBooks set was successful
+	 */
 	public boolean returnBook(Book book) {
 		book.setCheckedOut(false);
 		return checkedOutBooks.remove(book);
 	}
-
-	/**
-	 * Gets the first name of the LibraryMember
-	 * 
-	 * @return a String of the first name
-	 */
+	// Getters / Setters
+	// First Name
 	public String getFirstName() {
 		return firstName;
 	}
-
-	/**
-	 * Sets the first name of the LibraryMember
-	 * 
-	 * @param firstName a String of the first name
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
-	/**
-	 * Gets the last name of the LibraryMember
-	 * 
-	 * @return a String of the last name
-	 */
+	// Last Name
 	public String getLastName() {
 		return lastName;
 	}
-
-	/**
-	 * Sets the LibraryMember's last name
-	 * 
-	 * @param lastName a String of the last name
-	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	/**
-	 * Gets the checked out book
-	 * 
-	 * @return a Book that the LibraryMember has checked out
-	 */
-	public Book getBookCheckedOut() {
-		return bookCheckedOut;
-	}
-	
+	// Checked Out Books
 	public Set<Book> getCheckedOutBooks() {
 		return this.checkedOutBooks;
-	}
-
-	/**
-	 * Sets the checked out book
-	 * 
-	 * @param bookCheckedOut a Book to be checked out
-	 */
-	public void setBookCheckedOut(Book bookCheckedOut) {
-		this.bookCheckedOut = bookCheckedOut;
 	}
 
 	/**
@@ -120,15 +80,52 @@ public class LibraryMember {
 	 */
 	@Override
 	public String toString() {
-		String output = "*******LibraryMember*******" +
-				"\nName: " + firstName + " " + lastName;
-		if (bookCheckedOut != null) {
-			output += "\nBook: " + bookCheckedOut.toString();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.firstName + " " + this.lastName);
+		stringBuilder.append(" has currently checked out: \n");
+		if (this.checkedOutBooks.isEmpty()) {
+			stringBuilder.append("no books");
 		} else {
-			output += "\nBook: none";
+			for (Book book : this.checkedOutBooks) {
+				stringBuilder.append(book.toString() + "\n");
+			}
 		}
-		return output;
+		return stringBuilder.toString();
 	}
-	
-	
+
+	/**
+	 * HashCode only uses firstName and lastName to generate a hash code
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		return result;
+	}
+	/**
+	 * Equality is based on the firstName and lastName, not the checkedOutBook set
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LibraryMember other = (LibraryMember) obj;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		return true;
+	}
 }

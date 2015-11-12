@@ -9,30 +9,20 @@ import java.util.GregorianCalendar;
  *
  */
 public class Book {
-	/**
-	 * The book's title
-	 */
+	/** The book's title */
 	private String title;
-	/**
-	 * The book's author
-	 */
+	/** The book's author */
 	private String author;
-	/**
-	 * When the book was published
-	 */
+	/** When the book was published */
 	private Date publishedDate;
-	/**
-	 * Who published the book
-	 */
+	/** Who published the book */
 	private String publisher;
-	/**
-	 * Boolean to say if the book is checked out
-	 */
+	/** Boolean to say if the book is checked out */
 	private boolean checkedOut;
-	/**
-	 * LibraryMember object that checked out the book
-	 */
+	/** LibraryMember object that checked out the book */
 	private LibraryMember checkerOuter;
+	/** String that represents the book's sbnNumber */
+	private String sbnNumber;
 	
 	/**
 	 * Creates a Book object.
@@ -54,8 +44,9 @@ public class Book {
 	 * @param year integer for publish date year
 	 * @param month integer for publish date month
 	 * @param day integer for publish date year
+	 * @param sbnNumber String for the SBN number
 	 */
-	public Book(String title, String author, String publisher, int year, int month, int day) {
+	public Book(String title, String author, String publisher, int year, int month, int day, String sbnNumber) {
 		// Set the title from the arguments
 		this.title = title;
 		// If the author was passed in
@@ -78,42 +69,7 @@ public class Book {
 		}
 		// By default, a new book is not checked out
 		this.checkedOut = false;
-	}
-	
-	/**
-	 * Creates a Book object and uses published date defaults.
-	 * 
-	 * @param title string for book title
-	 * @param author string for book author
-	 * @param publisher string for book publisher
-	 */
-	public Book(String title, String author, String publisher) {
-		this(title, author, publisher, 0, 0, 1);
-	}
-	
-	/**
-	 * Creates a Book object when only the published date year is known.
-	 * 
-	 * @param title string for book title
-	 * @param author string for book author
-	 * @param publisher string for book publisher
-	 * @param year integer for published date year
-	 */
-	public Book(String title, String author, String publisher, int year) {
-		this(title, author, publisher, year, 0, 1);
-	}
-	
-	/**
-	 * Creates a Book object when the published date year and month are known.
-	 * 
-	 * @param title string for book title
-	 * @param author string for book author
-	 * @param publisher string for book publisher
-	 * @param year integer for published date year
-	 * @param month integer for published date month
-	 */
-	public Book(String title, String author, String publisher, int year, int month) {
-		this(title, author, publisher, year, month, 1);
+		this.sbnNumber = sbnNumber;
 	}
 	
 	/**
@@ -127,116 +83,55 @@ public class Book {
 		}
 	}
 	
-	/**
-	 * Gets the book's title
-	 * 
-	 * @return a String of the book's title
-	 */
+	// Getters / Setters
+	// Title
 	public String getTitle() {
 		return title;
 	}
-	
-	/**
-	 * Sets the book's title
-	 * 
-	 * @param title a String of the new title
-	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	/**
-	 * Gets the book's author
-	 * 
-	 * @return a String of the book's author
-	 */
+	// Author
 	public String getAuthor() {
 		return author;
 	}
-	
-	/**
-	 * Sets the book's author
-	 * 
-	 * @param author a String of the new author
-	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
-	/**
-	 * Gets the book's published date
-	 * 
-	 * @return a Date of the book's published date
-	 */
+	// Published Date
 	public Date getPublishedDate() {
 		return publishedDate;
 	}
-	
-	/**
-	 * Sets the book's published date
-	 * 
-	 * Uses the GregorianCalendar class to allow input to be in integers.
-	 * 
-	 * @param year an integer of the publish date year
-	 * @param month an integer of the publish date month
-	 * @param day an integer of the publish date day
-	 */
 	public void setPublishedDate(int year, int month, int day) {
 		this.publishedDate = new GregorianCalendar(year, month, day).getTime();
 	}
-	
-	/**
-	 * Gets the book's publisher
-	 * 
-	 * @return a String of the book's publisher
-	 */
+	// Publisher
 	public String getPublisher() {
 		return publisher;
 	}
-	
-	/**
-	 * Sets the book's publisher
-	 * 
-	 * @param publisher a String of the new publisher
-	 */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	
-	/**
-	 * Checks if the book is checked out or not
-	 * 
-	 * @return a boolean of whether the book is checked out or not
-	 */
+	// Checked Out
 	public boolean isCheckedOut() {
 		return checkedOut;
 	}
-	
-	/**
-	 * Sets the book's checkedOut value
-	 * 
-	 * @param checkedOut a boolean of the book's checked-out status
-	 */
 	public void setCheckedOut(boolean checkedOut) {
 		this.checkedOut = checkedOut;
 	}
-	
-	/**
-	 * Gets the LibraryMember object that checked out the book
-	 * 
-	 * @return a LibraryMember object
-	 */
+	// Library Member
 	public LibraryMember getCheckerOuter() {
 		return checkerOuter;
 	}
-
-	/**
-	 * Sets the LibraryMember that is checking out the book
-	 * 
-	 * @param checkerOuter a LibraryMember of the person checking the book out
-	 */
 	public void setCheckerOuter(LibraryMember checkerOuter) {
 		this.checkerOuter = checkerOuter;
+	}
+	// SBN Number
+	public String getSbnNumber() {
+		return this.sbnNumber;
+	}
+	public void setSbnNumber(String sbnNumber) {
+		this.sbnNumber = sbnNumber;
 	}
 
 	/**
@@ -244,11 +139,39 @@ public class Book {
 	 */
 	@Override
 	public String toString() {
-		return "*******Book*******" +
-				"\nTitle: " + title + 
-				"\nAuthor: " + author + 
-				"\nPublished At: " + publishedDate + 
-				"\nPublisher: " + publisher + 
-				"\nChecked Out: " + checkedOut;
+		return title + " by " + author;
 	}
+
+	/**
+	 * hashCode only uses the sbnNumber attribute to generate a hash code
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sbnNumber == null) ? 0 : sbnNumber.hashCode());
+		return result;
+	}
+
+	/**
+	 * Equality only depends on the sbnNumber attribute
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		if (sbnNumber == null) {
+			if (other.sbnNumber != null)
+				return false;
+		} else if (!sbnNumber.equals(other.sbnNumber))
+			return false;
+		return true;
+	}
+	
+	
 }

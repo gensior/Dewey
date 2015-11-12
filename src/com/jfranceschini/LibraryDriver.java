@@ -1,6 +1,7 @@
 package com.jfranceschini;
 
 import com.jfranceschini.library.Book;
+import com.jfranceschini.library.Library;
 import com.jfranceschini.library.LibraryMember;
 
 /**
@@ -15,50 +16,99 @@ public class LibraryDriver {
 	/**
 	 * Just the main method to be run in the console
 	 * 
-	 * @param args String array from the command line.
+	 * @param args
+	 *            String array from the command line.
 	 */
 	public static void main(String[] args) {
-		// Instantiate some books
-		// Green Eggs and Ham
-		Book book1 = new Book("Green Eggs and Ham", 
-				"Dr. Seuss", 
-				"Scholastic", 
-				1889,
-				1,
-				10);
-		System.out.println(book1);
-		// Hello World
-		Book book2 = new Book("Hello World",
-				"",
-				"",
-				1999,
-				11,
-				31);
-		System.out.println(book2);
-		// How to Serve Man
-		Book book3 = new Book("How to Serve Man",
-				"Kodos",
-				"Intergalactic Press",
-				1994);
-		System.out.println(book3);
-		// Stuff and Things (tests out no publish date upon instantiation)
-		Book book4 = new Book("Stuff and Things",
-				"Mr. Guy",
-				"Book Publishers");
-		System.out.println(book4);
-		// Instantiate five LibraryMembers
-		LibraryMember member1 = new LibraryMember("Jesse", "Franceschini");
-		LibraryMember member2 = new LibraryMember("Homer", "Simpson");
-		LibraryMember member3 = new LibraryMember("Lisa", "Simpson");
-		LibraryMember member4 = new LibraryMember("Marge", "Simpson");
-		LibraryMember member5 = new LibraryMember("Bart", "Simpson");
-		member1.checkOutBook(book1);
-		// Attempts to check out more than one book
-		member1.checkOutBook(book2);
-		member2.checkOutBook(book2);
-		member3.checkOutBook(book3);
-		member4.checkOutBook(book4);
-		// Attempts to check out a book that's already been checked out
-		member5.checkOutBook(book1);
+		// Create the Library
+
+		Library library = new Library("Seattle Public Library");
+
+		// Create a few members
+
+		LibraryMember memberCharles = new LibraryMember("Charles", "Gardiner");
+
+		LibraryMember memberJason = new LibraryMember("Jason", "Nichols");
+
+		LibraryMember memberJill = new LibraryMember("Jill", "Wilson");
+
+		LibraryMember memberRandy = new LibraryMember("Rany", "James");
+
+		// create some books
+
+		// if your books have a different constructor, create the same objects
+		// using your constructor
+
+		Book effectiveJavaBook = new Book("Effective Java", "Block", "Addison-Wesley", 2012, 0, 12, "ABCD-12345");
+
+		Book scalaBook = new Book("Scala for the impatient", "Someone", "Addison-Wesley", 2014, 0, 12, "XDEF-12339");
+
+		Book chefInfrastructureBook = new Book("Chef Infrastructure", "Matthias Marschalli", "Packt", 2013, 0, 1, "HHDC-212543");
+
+		Book javaInANutShellBook = new Book("Java In a Nutshell", "David Flanigan", "O'rielly", 2011, 6, 15, "LMNO-23233");
+
+		Book neverInLibrary = new Book("Not a real book", "??", "board book", 2011, 6, 15, "XYZ3-3203");
+
+		// add the books to the library
+
+		library.addBook(effectiveJavaBook);
+
+		library.addBook(scalaBook);
+
+		library.addBook(chefInfrastructureBook);
+
+		library.addBook(javaInANutShellBook);
+
+		// lets check the library
+
+		System.out.println(library.toString() + "\n");
+
+		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
+
+		System.out.println(library.toString() + "\n");
+
+		// checkout a book that does not exist
+
+		library.checkoutBook(memberCharles, neverInLibrary.getSbnNumber());
+
+		// return a book that does not exist
+
+		library.returnBook(memberCharles, neverInLibrary.getSbnNumber());
+
+		// check out the same book twice
+
+		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
+
+		library.checkoutBook(memberRandy, effectiveJavaBook.getSbnNumber());
+
+		System.out.println(library.toString() + "\n");
+
+		library.returnBook(memberCharles, effectiveJavaBook.getSbnNumber());
+
+		System.out.println(library.toString());
+
+		library.checkoutBook(memberRandy, javaInANutShellBook.getSbnNumber());
+
+		library.checkoutBook(memberJill, chefInfrastructureBook.getSbnNumber());
+
+		library.checkoutBook(memberJason, scalaBook.getSbnNumber());
+
+		System.out.println(library.toString() + "\n");
+
+		library.returnBook(memberRandy, javaInANutShellBook.getSbnNumber());
+
+		library.returnBook(memberJill, chefInfrastructureBook.getSbnNumber());
+
+		library.returnBook(memberJason, scalaBook.getSbnNumber());
+
+		library.checkoutBook(memberCharles, javaInANutShellBook.getSbnNumber());
+
+		library.checkoutBook(memberCharles, chefInfrastructureBook.getSbnNumber());
+
+		library.checkoutBook(memberCharles, scalaBook.getSbnNumber());
+
+		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
+
+		System.out.println(library.toString());
 	}
 }
