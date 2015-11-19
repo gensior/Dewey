@@ -15,20 +15,37 @@ java -cp ./src com/jfranceschini/LibraryDriver
 
 Design Decisions:
 =================
-Enforcement of checkout rules occurs at the Library class
-level, rather than the LibraryMember or Book class levels.
-I did this because it seemed like a natural place to put
-the responsibility of handling checkout validation, the
-Library is the object that knows the most about the
-situation to handle whether all conditions are met.
+This time enforcement of checkout rules occurs at both 
+the Library class level and the LibraryMember class levels.
 
+Checkout Enforcement:
+---------------------
+The Library class is responsible for determining if the
+member checking out an item has not reached their checkout
+limit yet and if the item being checked out hasn't already
+been checked out by someone else.
 
-Why Set or List?
-================
+Return Enforcement:
+-------------------
+The Library class is responsible for determining if the
+item being returned exists in the library's catalogue and
+if the member returning the item exists in the library's
+member list.
 
-In this assignment, I chose to use a Set to hold the books
-that a LibraryMember currently has checked out. There was
-really only one reason Set won out over List, and that was
-because Set gracefully allows only one object of equal value
-at a time to exist in a Set, whereas a Book added to a List 
-must be checked by hand to ensure duplication doesn't happen.
+The LibraryMember class is responsible for determining if
+the item being returned was checked out by the member
+returning the item.
+
+Determining Return Date:
+------------------------
+Calculating the return date is done via a method in the
+Item abstract class. This method, however is not abstract.
+I does depend on an abstract method that determines the
+due date offset. Each Item subclass is responsible for
+implementing this method and using it to further calculate
+the required return dates of items of certain media types.
+
+Media Types:
+------------
+Media types is a class enumeration. This was pretty
+straightforward.

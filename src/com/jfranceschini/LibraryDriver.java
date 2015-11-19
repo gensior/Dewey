@@ -1,8 +1,14 @@
 package com.jfranceschini;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import com.jfranceschini.library.Book;
 import com.jfranceschini.library.Library;
 import com.jfranceschini.library.LibraryMember;
+import com.jfranceschini.library.MediaType;
+import com.jfranceschini.library.Movie;
+import com.jfranceschini.library.Music;
 
 /**
  * Library Driver
@@ -20,95 +26,90 @@ public class LibraryDriver {
 	 *            String array from the command line.
 	 */
 	public static void main(String[] args) {
-		// Create the Library
-
+		// Create the library
 		Library library = new Library("Seattle Public Library");
 
-		// Create a few members
-
+		// Create members
 		LibraryMember memberCharles = new LibraryMember("Charles", "Gardiner");
-
 		LibraryMember memberJason = new LibraryMember("Jason", "Nichols");
-
 		LibraryMember memberJill = new LibraryMember("Jill", "Wilson");
 
-		LibraryMember memberRandy = new LibraryMember("Rany", "James");
+		// create some library items
+		Book electronicBook = new Book("Effective Java", "Block", "Addison-Wesley",
+		    new GregorianCalendar(2012, Calendar.JANUARY, 12).getTime(), "ABCD-12345", MediaType.ELECTRONIC);
 
-		// create some books
+		Book physicalBook = new Book("Scala for the impatient", "Someone", "Addison-Wesley",
+		    new GregorianCalendar(2014, Calendar.JANUARY, 12).getTime(), "XDEF-12339", MediaType.PHYSICAL);
 
-		// if your books have a different constructor, create the same objects
-		// using your constructor
+		Book unknownBook = new Book("Chef Infrastructure", "Matthias Marschalli", "Packt",
+		    new GregorianCalendar(2013, Calendar.JANUARY, 1).getTime(), "HHDC-212543", MediaType.UNKNOWN);
 
-		Book effectiveJavaBook = new Book("Effective Java", "Block", "Addison-Wesley", 2012, 0, 12, "ABCD-12345");
+		Movie physicalMovie = new Movie("Independence Day", "Michael Bay", "Sony", 
+			new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime(), MediaType.PHYSICAL);
+		
+		Movie electronicMovie = new Movie("Jurassic Park", "Stephen Spielberg", "Universal", 
+				new GregorianCalendar(1994, Calendar.JANUARY, 1).getTime(), MediaType.ELECTRONIC);
 
-		Book scalaBook = new Book("Scala for the impatient", "Someone", "Addison-Wesley", 2014, 0, 12, "XDEF-12339");
+		Movie unknownMovie = new Movie("Star Wars", "George Lucas", "Fox",
+				new GregorianCalendar(1978, Calendar.JANUARY, 1).getTime(), MediaType.UNKNOWN);
+		
+		Music electronicMusic = new Music("Computer World", "Kraftwerk", "Virgin",
+				new GregorianCalendar(1969, Calendar.JANUARY, 1).getTime(), MediaType.ELECTRONIC);
+		
+		Music physicalMusic = new Music("Nevermind", "Nirvana", "Sub Pop",
+				new GregorianCalendar(1991, Calendar.JANUARY, 1).getTime(), MediaType.PHYSICAL);
+		
+		Music unknownMusic = new Music("Random Access Memories", "Daft Punk", "Something",
+				new GregorianCalendar(2014, Calendar.JANUARY, 1).getTime(), MediaType.UNKNOWN);
+		
+		Movie notAddedMovie = new Movie("Toy Story", "Pixar", "Disney",
+				new GregorianCalendar(1999, Calendar.JANUARY, 1).getTime(), MediaType.PHYSICAL);
+		
+		// Add items to the library
+		library.addItem(electronicBook);
+		library.addItem(physicalBook);
+		library.addItem(unknownBook);
+		library.addItem(electronicMovie);
+		library.addItem(physicalMovie);
+		library.addItem(unknownMovie);
+		library.addItem(electronicMusic);
+		library.addItem(physicalMusic);
+		library.addItem(unknownMusic);
 
-		Book chefInfrastructureBook = new Book("Chef Infrastructure", "Matthias Marschalli", "Packt", 2013, 0, 1, "HHDC-212543");
 
-		Book javaInANutShellBook = new Book("Java In a Nutshell", "David Flanigan", "O'rielly", 2011, 6, 15, "LMNO-23233");
-
-		Book neverInLibrary = new Book("Not a real book", "??", "board book", 2011, 6, 15, "XYZ3-3203");
-
-		// add the books to the library
-
-		library.addBook(effectiveJavaBook);
-
-		library.addBook(scalaBook);
-
-		library.addBook(chefInfrastructureBook);
-
-		library.addBook(javaInANutShellBook);
-
-		// lets check the library
-
+		// let's check the library
 		System.out.println(library.toString() + "\n");
+		// Check out an item
+		System.out.println("*** charles checks out an e-book ***");
+		library.checkoutItem(memberCharles, electronicBook.getId());
+		// Try checking out an item that's already checked out
+		System.out.println("*** checking out item that's already checked out ***");
+		library.checkoutItem(memberJill, electronicBook.getId());
+		// Return an Item
+		System.out.println("*** charles returns an e-book ***");
+		library.returnItem(memberCharles, electronicBook.getId());
+		// A returned item can now be checked out
+		System.out.println("*** jill checks out an e-book ***");
+		library.checkoutItem(memberJill, electronicBook.getId());
+		// checkout an item that does not exist in the library
+		System.out.println("*** checking out item that's not in library ***");
+		library.checkoutItem(memberJason, notAddedMovie.getId());
+		// return an item that was not checked out
+		System.out.println("*** returning an item that wasn't checked out ***");
+		library.returnItem(memberJason, notAddedMovie.getId());
+		// check out an item
+		System.out.println("*** jason checks out physical music ***");
+		library.checkoutItem(memberJason, physicalMusic.getId());
+		// return item from wrong person
+		System.out.println("*** wrong person returning an item ***");
+		library.returnItem(memberJill, physicalMusic.getId());
+		// try to check out more than 3 items
+		System.out.println("*** try to check out more than 3 items ***");
+		library.checkoutItem(memberJill, physicalMovie.getId());
+		library.checkoutItem(memberJill, unknownMovie.getId());
+		library.checkoutItem(memberJill, unknownMusic.getId());
 
-		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
-
-		System.out.println(library.toString() + "\n");
-
-		// checkout a book that does not exist
-
-		library.checkoutBook(memberCharles, neverInLibrary.getSbnNumber());
-
-		// return a book that does not exist
-
-		library.returnBook(memberCharles, neverInLibrary.getSbnNumber());
-
-		// check out the same book twice
-
-		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
-
-		library.checkoutBook(memberRandy, effectiveJavaBook.getSbnNumber());
-
-		System.out.println(library.toString() + "\n");
-
-		library.returnBook(memberCharles, effectiveJavaBook.getSbnNumber());
-
-		System.out.println(library.toString());
-
-		library.checkoutBook(memberRandy, javaInANutShellBook.getSbnNumber());
-
-		library.checkoutBook(memberJill, chefInfrastructureBook.getSbnNumber());
-
-		library.checkoutBook(memberJason, scalaBook.getSbnNumber());
-
-		System.out.println(library.toString() + "\n");
-
-		library.returnBook(memberRandy, javaInANutShellBook.getSbnNumber());
-
-		library.returnBook(memberJill, chefInfrastructureBook.getSbnNumber());
-
-		library.returnBook(memberJason, scalaBook.getSbnNumber());
-
-		library.checkoutBook(memberCharles, javaInANutShellBook.getSbnNumber());
-
-		library.checkoutBook(memberCharles, chefInfrastructureBook.getSbnNumber());
-
-		library.checkoutBook(memberCharles, scalaBook.getSbnNumber());
-
-		library.checkoutBook(memberCharles, effectiveJavaBook.getSbnNumber());
-
+		// let's check the library again
 		System.out.println(library.toString());
 	}
 }

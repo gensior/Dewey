@@ -13,8 +13,8 @@ public class LibraryMember {
 	private String firstName;
 	/** Last name of library member */
 	private String lastName;
-	/** A set of books that the library member has currently checked out */
-	private Set<Book> checkedOutBooks = new HashSet<Book>();
+	/** A set of items that the library member has currently checked out */
+	private Set<Item> checkedOutItems = new HashSet<Item>();
 	
 	/**
 	 * Constructor for the LibraryMember
@@ -38,22 +38,33 @@ public class LibraryMember {
 	 * Books can only be checked out if they aren't already checked out.
 	 * LibraryMembers can only check out one book at a time.
 	 * 
-	 * @param book the Book object to be checked out
+	 * @param item the Item object to be checked out
 	 */
-	public void checkOutBook(Book book) {
-		book.setCheckedOut(checkedOutBooks.add(book));
+	public void checkOutItem(Item item) {
+		item.setCheckedOut(checkedOutItems.add(item));
+		System.out.println(this.firstName + " " + this.lastName + " checked out " + item.getTitle());
 	}
 	
 	/**
-	 * returnBook
+	 * returnItem
 	 * 
-	 * Removes a book from the checkedOutBooks set and sets the book's checkedOut boolean to false.
-	 * @param book a Book object to return
+	 * Removes an Item from the checkedOutItems set and sets the item's checkedOut boolean to false.
+	 * 
+	 * If the member hadn't checked out the item, it will return false
+	 * 
+	 * @param item an Item object to return
 	 * @return a boolean of whether removing the book from the checkedOutBooks set was successful
 	 */
-	public boolean returnBook(Book book) {
-		book.setCheckedOut(false);
-		return checkedOutBooks.remove(book);
+	public boolean returnItem(Item item) {
+		if (checkedOutItems.contains(item)) {
+			item.setCheckedOut(false);
+			System.out.println(this.firstName + " " + this.lastName + " returned " + item.getTitle());
+			return checkedOutItems.remove(item);
+		} else {
+			System.out.println(this.firstName + " " + this.lastName + " did not check out " + item.getTitle());
+			return false;
+		}
+		
 	}
 	// Getters / Setters
 	// First Name
@@ -71,8 +82,8 @@ public class LibraryMember {
 		this.lastName = lastName;
 	}
 	// Checked Out Books
-	public Set<Book> getCheckedOutBooks() {
-		return this.checkedOutBooks;
+	public Set<Item> getCheckedOutItems() {
+		return this.checkedOutItems;
 	}
 
 	/**
@@ -83,11 +94,11 @@ public class LibraryMember {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(this.firstName + " " + this.lastName);
 		stringBuilder.append(" has currently checked out: \n");
-		if (this.checkedOutBooks.isEmpty()) {
-			stringBuilder.append("no books");
+		if (this.checkedOutItems.isEmpty()) {
+			stringBuilder.append("no items checked out");
 		} else {
-			for (Book book : this.checkedOutBooks) {
-				stringBuilder.append(book.toString() + "\n");
+			for (Item item : this.checkedOutItems) {
+				stringBuilder.append(item.toString() + "\n");
 			}
 		}
 		return stringBuilder.toString();
