@@ -13,39 +13,29 @@ Then:
 
 java -cp ./src com/jfranceschini/LibraryDriver
 
-Design Decisions:
+Part3:
 =================
-This time enforcement of checkout rules occurs at both 
-the Library class level and the LibraryMember class levels.
 
-Checkout Enforcement:
----------------------
-The Library class is responsible for determining if the
-member checking out an item has not reached their checkout
-limit yet and if the item being checked out hasn't already
-been checked out by someone else.
+Swallowing Exceptions:
+----------------------
+"Swallowing" exceptions means having catch statements that
+do nothing useful with the caught exceptions. In the worst
+case, the catch statement is empty, otherwise swallowed
+exceptions may also be where exceptions are caught, handled
+poorly, and not passed along to other parts of the program.
 
-Return Enforcement:
--------------------
-The Library class is responsible for determining if the
-item being returned exists in the library's catalogue and
-if the member returning the item exists in the library's
-member list.
+This is bad practice because it obstructs the cause of
+exceptions and makes it harder to correct errors in programs.
 
-The LibraryMember class is responsible for determining if
-the item being returned was checked out by the member
-returning the item.
-
-Determining Return Date:
-------------------------
-Calculating the return date is done via a method in the
-Item abstract class. This method, however is not abstract.
-I does depend on an abstract method that determines the
-due date offset. Each Item subclass is responsible for
-implementing this method and using it to further calculate
-the required return dates of items of certain media types.
-
-Media Types:
-------------
-Media types is a class enumeration. This was pretty
-straightforward.
+RuntimeException vs Exception:
+------------------------------
+RuntimeExceptions are unchecked exceptions, meaning that when
+the program is compiled, no verification is performed to ensure
+that these exceptions are handled.  Exceptions are checked
+exceptions, which is to say that the compiler verifies that
+they are handled when the program is compiled. In other words,
+checked exceptions must have try/catch or throws statements
+where ever they're found, whereas unchecked exceptions are thrown
+at runtime and are therefore less predictable, so the compiler
+doesn't perform any verification that try/catch or throws
+statements are in place to handle them.

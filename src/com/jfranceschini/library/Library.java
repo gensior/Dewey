@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.jfranceschini.library.exception.LibraryItemAlreadyExistsException;
+import com.jfranceschini.library.exception.LibraryItemDoesNotExistException;
+import com.jfranceschini.library.exception.LibraryMemberDoesNotExistException;
+
 /**
  * Library
  * @author Jesse Franceschini
@@ -29,21 +33,26 @@ public class Library {
 		this.name = name;
 	}
 	
+	public void addLibraryMember(LibraryMember libraryMember) {
+		members.add(libraryMember);
+	}
+	
 	/**
 	 * addItem
 	 * 
 	 * Adds an item to the library's itemMap Map.
 	 * @param item an Item object to add to the library
+	 * @throws LibraryItemAlreadyExistsException 
 	 */
-	public void addItem(Item item) {
+	public void addItem(Item item) throws LibraryItemAlreadyExistsException {
 		// If the bookMap doesn't already contain a book with the same SbnNumber
 		if (!itemMap.containsKey(item.getId())) {
 			// Add the item to the itemMap
 			itemMap.put(item.getId(), item);
 			// System.out.println("Added item: " + item.getTitle());
 		} else {
-			// Otherwise print out an error message
-			System.out.println(item.getId() + " already exists in " + this.name + ".");
+			// the library item already exists
+			throw new LibraryItemAlreadyExistsException(item.getId() + " already exists in " + this.name + ".");
 		}
 	}
 	
@@ -53,10 +62,14 @@ public class Library {
 	 * If the item isn't null, isn't already checked out, and the member checking out the item hasn't reached their checkout limit, then check the item out.
 	 * @param member a LibraryMember trying to check out a book
 	 * @param itemId a String referencing an item in the itemMap
+	 * @throws LibraryMemberDoesNotExistException 
+	 * @throws LibraryItemDoesNotExistException 
 	 */
-	public void checkoutItem(LibraryMember member, String itemId) {
-		// Double membership already taken care of by set
-		members.add(member);
+	public void checkoutItem(LibraryMember member, String itemId) throws LibraryMemberDoesNotExistException, LibraryItemDoesNotExistException {
+		if (!members.contains(member)) {
+			// If the member isn't in the library's members Set
+			throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
+		}
 		// Get the book object from the bookMap
 		Item item = itemMap.get(itemId);
 		// Check if the book isn't null, isn't checked out, and if the member can still check out books
@@ -64,8 +77,8 @@ public class Library {
 			// Check out that book
 			member.checkOutItem(item);
 		} else {
-			// Otherwise, print an error message
-			System.out.println("Could not find item to check out. Or past your limit.");
+			// the library item does not exist
+			throw new LibraryItemDoesNotExistException("Library Item " + itemId.toString() + " does not exist.");
 		}
 	}
 	
@@ -75,17 +88,19 @@ public class Library {
 	 * Returns an item to the library if the item exists in the library's itemMap and the item exists in the member's item set.
 	 * @param member a LibraryMember trying to return an item
 	 * @param itemId itemId a String referencing an item in the itemMap
+	 * @throws LibraryItemDoesNotExistException 
+	 * @throws LibraryMemberDoesNotExistException 
 	 */
-	public void returnItem(LibraryMember member, String itemId) {
+	public void returnItem(LibraryMember member, String itemId) throws LibraryItemDoesNotExistException, LibraryMemberDoesNotExistException {
 		if (itemMap.containsKey(itemId)) {
 			if (members.contains(member)) {
 				Item itemToReturn = itemMap.get(itemId);
 				member.returnItem(itemToReturn);	
 			} else {
-				System.out.println("Member not found in library.");
+				throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 			}
 		} else {
-			System.out.println("This item is not checked out or does not exist.");
+			throw new LibraryItemDoesNotExistException("Library Item " + itemId.toString() + " does not exist.");
 		}
 	}
 	
