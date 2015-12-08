@@ -22,11 +22,11 @@ public class FileLogger extends AbstractLogger {
 			if(!Files.exists(Paths.get(logFilePath))) {
 				Files.createFile(Paths.get(logFilePath));
 			}
-			return new FileOutputStream(new File(logFilePath));
+			FileOutputStream fos = new FileOutputStream(new File(logFilePath));
+			return fos;
 		} catch (IOException e) {
-			System.out.println("File not found!");
 			e.printStackTrace();
-			return System.out;
+			return null;
 		}
 		
 	}

@@ -25,7 +25,7 @@ public class LibraryBranch {
 	/** A set of library member that belong to the library */
 	private Set<LibraryMember> members = new HashSet<LibraryMember>();
 	private LibraryCatalog libraryCatalog = LibraryCatalog.getInstance();
-	Logger logger = AbstractLogger.createLogger(LoggerType.CONSOLE, LibraryBranch.class);
+	private static final Logger LOGGER = AbstractLogger.createLogger(LoggerType.FILE, LibraryBranch.class);
 	
 	/** A constant to limit the number of items the library allows one user to check out */
 	public final static int CHECKOUT_LIMIT = 3;
@@ -58,7 +58,7 @@ public class LibraryBranch {
 			// System.out.println("Added item: " + item.getTitle());
 		} else {
 			// the library item already exists
-			logger.warn("Library item already exists");
+			LOGGER.warn("Library item already exists");
 			throw new LibraryItemAlreadyExistsException(item.getId() + " already exists in " + this.name + ".");
 		}
 	}
@@ -75,7 +75,7 @@ public class LibraryBranch {
 	public void checkoutItem(LibraryMember member, UUID uuid) throws LibraryMemberDoesNotExistException, LibraryItemDoesNotExistException {
 		if (!members.contains(member)) {
 			// If the member isn't in the library's members Set
-			logger.warn("Library member does not exist");
+			LOGGER.warn("Library member does not exist");
 			throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 		}
 		// Get the book object from the bookMap
@@ -86,7 +86,7 @@ public class LibraryBranch {
 			member.checkOutItem(item);
 		} else {
 			// the library item does not exist
-			logger.warn("Library item does not exist");
+			LOGGER.warn("Library item does not exist");
 			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}
@@ -106,11 +106,11 @@ public class LibraryBranch {
 				LibraryItem itemToReturn = libraryCatalog.getLibraryItem(uuid);
 				member.returnItem(itemToReturn);	
 			} else {
-				logger.warn("Library member does not exist");
+				LOGGER.warn("Library member does not exist");
 				throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 			}
 		} else {
-			logger.warn("Library item already exists");
+			LOGGER.warn("Library item already exists");
 			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}

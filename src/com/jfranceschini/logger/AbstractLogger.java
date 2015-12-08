@@ -5,9 +5,9 @@ import java.io.OutputStream;
 
 public abstract class AbstractLogger implements Logger {
 	
-	private final String INFO = "INFO: ";
-	private final String WARN = "WARN: ";
-	private final String ERROR = "ERROR: ";
+	private final String INFO = "INFO";
+	private final String WARN = "WARN";
+	private final String ERROR = "ERROR";
 	
 	private final String className;
 	private final OutputStream out;
@@ -33,8 +33,7 @@ public abstract class AbstractLogger implements Logger {
 	
 	private void writeMessage(String errorLevel, String message) {
 		try {
-			System.out.println(out.getClass());
-			out.write(String.format(className+": " + errorLevel + message + "\n").getBytes());
+			out.write(String.format("[" + errorLevel + "] " + className + ": " + message + "\n").getBytes());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -45,7 +44,6 @@ public abstract class AbstractLogger implements Logger {
 		if (loggerType == LoggerType.CONSOLE) {
 			return new OutputLogger(clazz);
 		} else {
-			System.out.println("Using file logger.");
 			return new FileLogger(clazz);
 		}
 	}
