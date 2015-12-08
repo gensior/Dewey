@@ -14,7 +14,7 @@ public class LibraryCatalog {
 
 	private LibraryCatalog(){ }
 	
-	public LibraryItem getLibraryItem(String id) {
+	public LibraryItem getLibraryItem(UUID id) {
 		return libraryItems.get(id);
 	}
 	

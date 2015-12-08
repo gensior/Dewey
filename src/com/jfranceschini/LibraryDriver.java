@@ -36,7 +36,7 @@ public class LibraryDriver {
 
 		// // Create the library item
 		LibraryBranch ballardLibrary = new LibraryBranch("Ballard Public Library");
-		LibraryBranch qaLibrary = new LibraryBranch("Queen Anne Library");
+		// LibraryBranch qaLibrary = new LibraryBranch("Queen Anne Library");
 
 		// // Create a bunch of members
 		LibraryMemberBuilder lmb = new LibraryMemberBuilder("Charles", "Gardiner")

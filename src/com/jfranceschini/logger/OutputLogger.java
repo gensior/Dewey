@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 public class OutputLogger extends AbstractLogger {
 
-	public OutputLogger(Class clazz) {
+	public OutputLogger(@SuppressWarnings("rawtypes") Class clazz) {
 		super(clazz);
 	}
 	

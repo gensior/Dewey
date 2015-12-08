@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.jfranceschini.logger.Logger;
 import com.jfranceschini.library.exception.LibraryItemAlreadyExistsException;
 import com.jfranceschini.library.exception.LibraryItemDoesNotExistException;
 import com.jfranceschini.library.exception.LibraryMemberDoesNotExistException;
+import com.jfranceschini.logger.AbstractLogger;
+import com.jfranceschini.logger.LoggerType;
 
 /**
  * LibraryBranch
@@ -19,10 +22,11 @@ public class LibraryBranch {
 	/** The name of the library */
 	private String name;
 	/** A map of books that the library has in its collection */
-	private Map<UUID, LibraryItem> itemMap = new HashMap<UUID, LibraryItem>();
 	/** A set of library member that belong to the library */
 	private Set<LibraryMember> members = new HashSet<LibraryMember>();
 	private LibraryCatalog libraryCatalog = LibraryCatalog.getInstance();
+	Logger logger = AbstractLogger.createLogger(LoggerType.CONSOLE, LibraryBranch.class);
+	
 	/** A constant to limit the number of items the library allows one user to check out */
 	public final static int CHECKOUT_LIMIT = 3;
 	
@@ -48,12 +52,13 @@ public class LibraryBranch {
 	 */
 	public void addItem(LibraryItem item) throws LibraryItemAlreadyExistsException {
 		// If the bookMap doesn't already contain a book with the same SbnNumber
-		if (!itemMap.containsKey(item.getId())) {
+		if (!libraryCatalog.contains(item.getId())) {
 			// Add the item to the itemMap
-			itemMap.put(item.getId(), item);
+			libraryCatalog.addLibraryItem(item);
 			// System.out.println("Added item: " + item.getTitle());
 		} else {
 			// the library item already exists
+			logger.warn("Library item already exists");
 			throw new LibraryItemAlreadyExistsException(item.getId() + " already exists in " + this.name + ".");
 		}
 	}
@@ -70,16 +75,18 @@ public class LibraryBranch {
 	public void checkoutItem(LibraryMember member, UUID uuid) throws LibraryMemberDoesNotExistException, LibraryItemDoesNotExistException {
 		if (!members.contains(member)) {
 			// If the member isn't in the library's members Set
+			logger.warn("Library member does not exist");
 			throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 		}
 		// Get the book object from the bookMap
-		LibraryItem item = itemMap.get(uuid);
+		LibraryItem item = libraryCatalog.getLibraryItem(uuid);
 		// Check if the book isn't null, isn't checked out, and if the member can still check out books
 		if (item != null && !item.isCheckedOut() && member.getCheckedOutItems().size() < CHECKOUT_LIMIT) {
 			// Check out that book
 			member.checkOutItem(item);
 		} else {
 			// the library item does not exist
+			logger.warn("Library item does not exist");
 			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}
@@ -94,14 +101,16 @@ public class LibraryBranch {
 	 * @throws LibraryMemberDoesNotExistException 
 	 */
 	public void returnItem(LibraryMember member, UUID uuid) throws LibraryItemDoesNotExistException, LibraryMemberDoesNotExistException {
-		if (itemMap.containsKey(uuid)) {
+		if (libraryCatalog.contains(uuid)) {
 			if (members.contains(member)) {
-				LibraryItem itemToReturn = itemMap.get(uuid);
+				LibraryItem itemToReturn = libraryCatalog.getLibraryItem(uuid);
 				member.returnItem(itemToReturn);	
 			} else {
+				logger.warn("Library member does not exist");
 				throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 			}
 		} else {
+			logger.warn("Library item already exists");
 			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}
@@ -114,7 +123,7 @@ public class LibraryBranch {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Library: " + this.name + "\n");
 		stringBuilder.append("Library Books:\n");
-		for (LibraryItem item : itemMap.values()) {
+		for (LibraryItem item : libraryCatalog.getLibraryItems()) {
 			stringBuilder.append("-- " + item.toString() + "\n");
 		}
 		stringBuilder.append("\nLibrary Members:\n");
