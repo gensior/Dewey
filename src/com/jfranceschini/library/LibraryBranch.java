@@ -4,23 +4,25 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.jfranceschini.library.exception.LibraryItemAlreadyExistsException;
 import com.jfranceschini.library.exception.LibraryItemDoesNotExistException;
 import com.jfranceschini.library.exception.LibraryMemberDoesNotExistException;
 
 /**
- * Library
+ * LibraryBranch
  * @author Jesse Franceschini
  *
  */
-public class Library {
+public class LibraryBranch {
 	/** The name of the library */
 	private String name;
 	/** A map of books that the library has in its collection */
-	private Map<String, Item> itemMap = new HashMap<String, Item>();
+	private Map<UUID, LibraryItem> itemMap = new HashMap<UUID, LibraryItem>();
 	/** A set of library member that belong to the library */
 	private Set<LibraryMember> members = new HashSet<LibraryMember>();
+	private LibraryCatalog libraryCatalog = LibraryCatalog.getInstance();
 	/** A constant to limit the number of items the library allows one user to check out */
 	public final static int CHECKOUT_LIMIT = 3;
 	
@@ -29,7 +31,7 @@ public class Library {
 	 * 
 	 * @param name a String to represent the name of the library
 	 */
-	public Library(String name) {
+	public LibraryBranch(String name) {
 		this.name = name;
 	}
 	
@@ -44,7 +46,7 @@ public class Library {
 	 * @param item an Item object to add to the library
 	 * @throws LibraryItemAlreadyExistsException 
 	 */
-	public void addItem(Item item) throws LibraryItemAlreadyExistsException {
+	public void addItem(LibraryItem item) throws LibraryItemAlreadyExistsException {
 		// If the bookMap doesn't already contain a book with the same SbnNumber
 		if (!itemMap.containsKey(item.getId())) {
 			// Add the item to the itemMap
@@ -61,24 +63,24 @@ public class Library {
 	 * 
 	 * If the item isn't null, isn't already checked out, and the member checking out the item hasn't reached their checkout limit, then check the item out.
 	 * @param member a LibraryMember trying to check out a book
-	 * @param itemId a String referencing an item in the itemMap
+	 * @param uuid a String referencing an item in the itemMap
 	 * @throws LibraryMemberDoesNotExistException 
 	 * @throws LibraryItemDoesNotExistException 
 	 */
-	public void checkoutItem(LibraryMember member, String itemId) throws LibraryMemberDoesNotExistException, LibraryItemDoesNotExistException {
+	public void checkoutItem(LibraryMember member, UUID uuid) throws LibraryMemberDoesNotExistException, LibraryItemDoesNotExistException {
 		if (!members.contains(member)) {
 			// If the member isn't in the library's members Set
 			throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 		}
 		// Get the book object from the bookMap
-		Item item = itemMap.get(itemId);
+		LibraryItem item = itemMap.get(uuid);
 		// Check if the book isn't null, isn't checked out, and if the member can still check out books
 		if (item != null && !item.isCheckedOut() && member.getCheckedOutItems().size() < CHECKOUT_LIMIT) {
 			// Check out that book
 			member.checkOutItem(item);
 		} else {
 			// the library item does not exist
-			throw new LibraryItemDoesNotExistException("Library Item " + itemId.toString() + " does not exist.");
+			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}
 	
@@ -87,20 +89,20 @@ public class Library {
 	 * 
 	 * Returns an item to the library if the item exists in the library's itemMap and the item exists in the member's item set.
 	 * @param member a LibraryMember trying to return an item
-	 * @param itemId itemId a String referencing an item in the itemMap
+	 * @param uuid itemId a String referencing an item in the itemMap
 	 * @throws LibraryItemDoesNotExistException 
 	 * @throws LibraryMemberDoesNotExistException 
 	 */
-	public void returnItem(LibraryMember member, String itemId) throws LibraryItemDoesNotExistException, LibraryMemberDoesNotExistException {
-		if (itemMap.containsKey(itemId)) {
+	public void returnItem(LibraryMember member, UUID uuid) throws LibraryItemDoesNotExistException, LibraryMemberDoesNotExistException {
+		if (itemMap.containsKey(uuid)) {
 			if (members.contains(member)) {
-				Item itemToReturn = itemMap.get(itemId);
+				LibraryItem itemToReturn = itemMap.get(uuid);
 				member.returnItem(itemToReturn);	
 			} else {
 				throw new LibraryMemberDoesNotExistException("Library Member " + member.getFirstName() + " " + member.getLastName() + " does not exist.");
 			}
 		} else {
-			throw new LibraryItemDoesNotExistException("Library Item " + itemId.toString() + " does not exist.");
+			throw new LibraryItemDoesNotExistException("Library Item " + uuid.toString() + " does not exist.");
 		}
 	}
 	
@@ -112,7 +114,7 @@ public class Library {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Library: " + this.name + "\n");
 		stringBuilder.append("Library Books:\n");
-		for (Item item : itemMap.values()) {
+		for (LibraryItem item : itemMap.values()) {
 			stringBuilder.append("-- " + item.toString() + "\n");
 		}
 		stringBuilder.append("\nLibrary Members:\n");

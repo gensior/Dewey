@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Jesse Franceschini
  *
  */
-public class Music extends Item {
+public class Music extends LibraryItem {
 	/** A String of the artist performing the song */
 	private String artist;
 

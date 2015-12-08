@@ -6,9 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.jfranceschini.library.Book;
-import com.jfranceschini.library.Item;
-import com.jfranceschini.library.Library;
+import com.jfranceschini.library.LibraryItem;
+import com.jfranceschini.library.LibraryBranch;
 import com.jfranceschini.library.LibraryMember;
+import com.jfranceschini.library.LibraryMember.LibraryMemberBuilder;
 import com.jfranceschini.library.MediaType;
 import com.jfranceschini.library.Movie;
 import com.jfranceschini.library.Music;
@@ -31,17 +32,26 @@ public class LibraryDriver {
 	 * @param args String array from the command line.
 	 */
 	public static void main(String[] args) {
-		List<Item> libItems = new ArrayList<Item>();
+		List<LibraryItem> libItems = new ArrayList<LibraryItem>();
 
 		// // Create the library item
-		Library library = new Library("Seattle Public Library");
+		LibraryBranch ballardLibrary = new LibraryBranch("Ballard Public Library");
+		LibraryBranch qaLibrary = new LibraryBranch("Queen Anne Library");
 
 		// // Create a bunch of members
-		LibraryMember memberCharles = new LibraryMember("Charles", "Gardiner");
-		LibraryMember memberJason = new LibraryMember("Jason", "Nichols");
-		LibraryMember memberJill = new LibraryMember("Jill", "Wilson");
-		LibraryMember memberRandy = new LibraryMember("Randy", "Savage");
-		LibraryMember memberHulk = new LibraryMember("Hulk", "Hogan");
+		LibraryMemberBuilder lmb = new LibraryMemberBuilder("Charles", "Gardiner")
+			.withAddress("1234 Main St.")
+			.withPhoneNumber("206-123-4567")
+			.withSocialSecurityNumber("7")
+			.withTitle("Mr.")
+			.withGender("Male")
+			.withMiddleName("Mancy");
+		LibraryMember memberCharles = lmb.build();
+		System.out.println(memberCharles);
+//		LibraryMember memberJason = new LibraryMember("Jason", "Nichols");
+//		LibraryMember memberJill = new LibraryMember("Jill", "Wilson");
+//		LibraryMember memberRandy = new LibraryMember("Randy", "Savage");
+//		LibraryMember memberHulk = new LibraryMember("Hulk", "Hogan");
 
 		// create some books
 		Book javaBook = new Book(
@@ -125,9 +135,9 @@ public class LibraryDriver {
 
 		// Lets add all the items to the library
 
-		for (Item libItem : libItems) {
+		for (LibraryItem libItem : libItems) {
 			try {
-				library.addItem(libItem);
+				ballardLibrary.addItem(libItem);
 			} catch (LibraryItemAlreadyExistsException liae) {
 				System.out.println("Duplicate item avoided.");
 				liae.printStackTrace();
@@ -135,7 +145,7 @@ public class LibraryDriver {
 		}
 
 		try {
-			library.addItem(preMovie);
+			ballardLibrary.addItem(preMovie);
 		} catch (LibraryItemAlreadyExistsException liae) {
 			System.out.println("Unable to add pre movie");
 			liae.printStackTrace();
@@ -145,7 +155,7 @@ public class LibraryDriver {
 		// lets check some things out
 
 		try {
-			library.checkoutItem(memberCharles, javaBook.getId());
+			ballardLibrary.checkoutItem(memberCharles, javaBook.getId());
 		} catch (LibraryMemberDoesNotExistException e) {
 			System.out.println("Throwing missing library member exception.");
 			e.printStackTrace();
@@ -154,10 +164,10 @@ public class LibraryDriver {
 			e.printStackTrace();
 		}
 
-		library.addLibraryMember(memberCharles);
+		ballardLibrary.addLibraryMember(memberCharles);
 
 		try {
-			library.checkoutItem(memberCharles, javaBook.getId());
+			ballardLibrary.checkoutItem(memberCharles, javaBook.getId());
 		} catch (LibraryMemberDoesNotExistException e) {
 			System.out.println("Throwing missing library member exception.");
 			e.printStackTrace();
@@ -169,7 +179,7 @@ public class LibraryDriver {
 		}
 
 		try {
-			library.returnItem(memberCharles, slantedAndEnchanted.getId());
+			ballardLibrary.returnItem(memberCharles, slantedAndEnchanted.getId());
 		} catch (LibraryMemberDoesNotExistException e) {
 			System.out.println("Throwing missing library member exception.");
 			e.printStackTrace();
@@ -179,14 +189,14 @@ public class LibraryDriver {
 		}
 
 		try {
-			library.addItem(slantedAndEnchanted);
+			ballardLibrary.addItem(slantedAndEnchanted);
 		} catch (LibraryItemAlreadyExistsException e1) {
 			System.out.println("Throwing library item already exists exception.");
 			e1.printStackTrace();
 		}
 
 		try {
-			library.returnItem(memberCharles, slantedAndEnchanted.getId());
+			ballardLibrary.returnItem(memberCharles, slantedAndEnchanted.getId());
 		} catch (LibraryMemberDoesNotExistException e) {
 			System.out.println("Throwing missing library member exception.");
 			e.printStackTrace();

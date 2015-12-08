@@ -8,7 +8,7 @@ import java.util.Date;
  * @author Jesse Franceschini
  *
  */
-public class Book extends Item {
+public class Book extends LibraryItem {
 	/** A String of the sbnNumber of the book */
 	private String sbnNumber;
 	/** A String of the author of the book */

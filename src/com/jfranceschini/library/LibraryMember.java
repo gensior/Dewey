@@ -13,8 +13,14 @@ public class LibraryMember {
 	private String firstName;
 	/** Last name of library member */
 	private String lastName;
+	private String address;
+	private String phoneNumber;
+	private String socialSecurityNumber;
+	private String title;
+	private String gender;
+	private String middleName;
 	/** A set of items that the library member has currently checked out */
-	private Set<Item> checkedOutItems = new HashSet<Item>();
+	private Set<LibraryItem> checkedOutItems = new HashSet<LibraryItem>();
 	
 	/**
 	 * Constructor for the LibraryMember
@@ -24,12 +30,79 @@ public class LibraryMember {
 	 * @param firstName String of the first name
 	 * @param lastName String of the last name
 	 */
-	public LibraryMember(String firstName, String lastName) {
+	public LibraryMember(LibraryMemberBuilder lmb) {
 		// Sets the first name of the library member
-		this.firstName = firstName;
+		this.firstName = lmb.firstName;
 		// Sets the last name of the library member
-		this.lastName = lastName;
-		// By default, no book can be checked out on instantiation
+		this.lastName = lmb.lastName;
+		this.address = lmb.address;
+		this.phoneNumber = lmb.phoneNumber;
+		this.socialSecurityNumber = lmb.socialSecurityNumber;
+		this.title = lmb.title;
+		this.gender = lmb.gender;
+		this.middleName = lmb.middleName;
+	}
+	
+	public static class LibraryMemberBuilder {
+		/** First name of library member */
+		private String firstName;
+		/** Last name of library member */
+		private String lastName;
+		private String address;
+		private String phoneNumber;
+		private String socialSecurityNumber;
+		private String title;
+		private String gender;
+		private String middleName;
+		
+		public LibraryMemberBuilder(String firstName, String lastName) {
+			this.firstName = firstName;
+			this.lastName = lastName;
+		}
+		
+		public LibraryMemberBuilder withFirstName(String firstName) {
+			this.firstName = firstName;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withLastName(String lastName) {
+			this.lastName = lastName;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withAddress(String address) {
+			this.address = address;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withPhoneNumber(String phoneNumber) {
+			this.phoneNumber = phoneNumber;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withSocialSecurityNumber(String socialSecurityNumber) {
+			this.socialSecurityNumber = socialSecurityNumber;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withTitle(String title) {
+			this.title = title;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withGender(String gender) {
+			this.gender = gender;
+			return this;
+		}
+		
+		public LibraryMemberBuilder withMiddleName(String middleName) {
+			this.middleName = middleName;
+			return this;
+		}
+		
+		public LibraryMember build() {
+			return new LibraryMember(this);
+		}
 	}
 	
 	/**
@@ -40,7 +113,7 @@ public class LibraryMember {
 	 * 
 	 * @param item the Item object to be checked out
 	 */
-	public void checkOutItem(Item item) {
+	public void checkOutItem(LibraryItem item) {
 		item.setCheckedOut(checkedOutItems.add(item));
 		System.out.println(this.firstName + " " + this.lastName + " checked out " + item.getTitle());
 	}
@@ -55,7 +128,7 @@ public class LibraryMember {
 	 * @param item an Item object to return
 	 * @return a boolean of whether removing the book from the checkedOutBooks set was successful
 	 */
-	public boolean returnItem(Item item) {
+	public boolean returnItem(LibraryItem item) {
 		if (checkedOutItems.contains(item)) {
 			item.setCheckedOut(false);
 			System.out.println(this.firstName + " " + this.lastName + " returned " + item.getTitle());
@@ -82,7 +155,7 @@ public class LibraryMember {
 		this.lastName = lastName;
 	}
 	// Checked Out Books
-	public Set<Item> getCheckedOutItems() {
+	public Set<LibraryItem> getCheckedOutItems() {
 		return this.checkedOutItems;
 	}
 
@@ -92,12 +165,16 @@ public class LibraryMember {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.firstName + " " + this.lastName);
-		stringBuilder.append(" has currently checked out: \n");
+		stringBuilder.append(this.title + " " + this.firstName + " " + this.middleName + " " + this.lastName + "\n");
+		stringBuilder.append("Gender: " + this.gender + "\n");
+		stringBuilder.append("Address: " + this.address + "\n");
+		stringBuilder.append("Phone Number: " + this.phoneNumber + "\n");
+		stringBuilder.append("SSN: " + this.socialSecurityNumber + "\n");
+		stringBuilder.append("Check out items:\n");
 		if (this.checkedOutItems.isEmpty()) {
 			stringBuilder.append("no items checked out");
 		} else {
-			for (Item item : this.checkedOutItems) {
+			for (LibraryItem item : this.checkedOutItems) {
 				stringBuilder.append(item.toString() + "\n");
 			}
 		}

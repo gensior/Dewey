@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author Jesse Franceschini
  *
  */
-public abstract class Item {
+public abstract class LibraryItem {
 	protected String title;
 	/** When the book was published */
 	protected Date publishedDate;
@@ -51,7 +51,7 @@ public abstract class Item {
 	 * @param publishedDate a Date of when the item was published
 	 * @param mediaType a MediaType of what kind of media the item is
 	 */
-	public Item(String title, String publisher, Date publishedDate, MediaType mediaType) {
+	public LibraryItem(String title, String publisher, Date publishedDate, MediaType mediaType) {
 		this.title = title;
 		this.publisher = publisher;
 		this.publishedDate = publishedDate;
@@ -92,8 +92,8 @@ public abstract class Item {
 		this.checkerOuter = checkerOuter;
 	}
 	// SBN Number
-	public String getId() {
-		return this.id.toString();
+	public UUID getId() {
+		return this.id;
 	}
 	// Checked Out
 	public boolean isCheckedOut() {

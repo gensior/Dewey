@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Jesse Franceschini
  *
  */
-public class Movie extends Item {
+public class Movie extends LibraryItem {
 	/** A String of the director */
 	private String director;
 	
