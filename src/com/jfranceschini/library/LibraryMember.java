@@ -43,63 +43,123 @@ public class LibraryMember {
 		this.middleName = lmb.middleName;
 	}
 	
+	/**
+	 * LibraryMemberBuilder
+	 * @author Jesse Franceschini
+	 *
+	 */
 	public static class LibraryMemberBuilder {
 		/** First name of library member */
 		private String firstName;
 		/** Last name of library member */
 		private String lastName;
+		/** Address of the library member */
 		private String address;
+		/** Phone Number of the library member */
 		private String phoneNumber;
+		/** Social Security Number of the library member */
 		private String socialSecurityNumber;
+		/** Title of the library member */
 		private String title;
+		/** Gender of the library member */
 		private String gender;
+		/** Middle Name of the library member */
 		private String middleName;
 		
+		/**
+		 * Default constructor
+		 * @param firstName a String of the library member's first name
+		 * @param lastName a String of the library member's last name
+		 */
 		public LibraryMemberBuilder(String firstName, String lastName) {
 			this.firstName = firstName;
 			this.lastName = lastName;
 		}
 		
+		/**
+		 * Edits the first name
+		 * @param firstName a String of the library member's first name
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withFirstName(String firstName) {
 			this.firstName = firstName;
 			return this;
 		}
 		
+		/**
+		 * Edits the last name
+		 * @param lastName a String of the library member's last name
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withLastName(String lastName) {
 			this.lastName = lastName;
 			return this;
 		}
 		
+		/**
+		 * Edits the address
+		 * @param address a String of the library member's address
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withAddress(String address) {
 			this.address = address;
 			return this;
 		}
 		
+		/**
+		 * Edits the phone number
+		 * @param phoneNumber a String of the library member's phone number
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withPhoneNumber(String phoneNumber) {
 			this.phoneNumber = phoneNumber;
 			return this;
 		}
 		
+		/**
+		 * Edits the social security number
+		 * @param socialSecurityNumber a String of the library member's social security number
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withSocialSecurityNumber(String socialSecurityNumber) {
 			this.socialSecurityNumber = socialSecurityNumber;
 			return this;
 		}
 		
+		/**
+		 * Edits the title
+		 * @param tritle a String of the library member's title
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withTitle(String title) {
 			this.title = title;
 			return this;
 		}
 		
+		/**
+		 * Edits the gender
+		 * @param gender a String of the library member's gender
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withGender(String gender) {
 			this.gender = gender;
 			return this;
 		}
 		
+		/**
+		 * Edits the middle name
+		 * @param middleName a String of the library member's middle name
+		 * @return the LibraryMemberBuilder instance
+		 */
 		public LibraryMemberBuilder withMiddleName(String middleName) {
 			this.middleName = middleName;
 			return this;
 		}
 		
+		/**
+		 * Builds the LibraryMember based on attributes of the builder
+		 * @return a LibraryMember
+		 */
 		public LibraryMember build() {
 			return new LibraryMember(this);
 		}

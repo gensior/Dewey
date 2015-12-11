@@ -36,7 +36,7 @@ public class LibraryDriver {
 
 		// // Create the library item
 		LibraryBranch ballardLibrary = new LibraryBranch("Ballard Public Library");
-		// LibraryBranch qaLibrary = new LibraryBranch("Queen Anne Library");
+		LibraryBranch qaLibrary = new LibraryBranch("Queen Anne Library");
 
 		// // Create a bunch of members
 		LibraryMemberBuilder lmb = new LibraryMemberBuilder("Charles", "Gardiner")
@@ -48,10 +48,12 @@ public class LibraryDriver {
 			.withMiddleName("Mancy");
 		LibraryMember memberCharles = lmb.build();
 		System.out.println(memberCharles);
-//		LibraryMember memberJason = new LibraryMember("Jason", "Nichols");
-//		LibraryMember memberJill = new LibraryMember("Jill", "Wilson");
-//		LibraryMember memberRandy = new LibraryMember("Randy", "Savage");
-//		LibraryMember memberHulk = new LibraryMember("Hulk", "Hogan");
+		// Add Charles to Ballard Public Library
+		ballardLibrary.addLibraryMember(memberCharles);
+		lmb = new LibraryMemberBuilder("Jason", "Nichols");
+		LibraryMember memberJason = lmb.build();
+		// Add Jason to Queen Anne Library
+		qaLibrary.addLibraryMember(memberJason);
 
 		// create some books
 		Book javaBook = new Book(
@@ -133,7 +135,7 @@ public class LibraryDriver {
 		libItems.add(vanHalen);
 		libItems.add(vanHalen);
 
-		// Lets add all the items to the library
+		// Lets add all the items to the ballard library
 
 		for (LibraryItem libItem : libItems) {
 			try {
@@ -152,7 +154,7 @@ public class LibraryDriver {
 		}
 
 		// Library is loaded with all items
-		// lets check some things out
+		// have charles check something out
 
 		try {
 			ballardLibrary.checkoutItem(memberCharles, javaBook.getId());
@@ -163,23 +165,10 @@ public class LibraryDriver {
 			System.out.println("Throwing missing library item exception.");
 			e.printStackTrace();
 		}
-
-		ballardLibrary.addLibraryMember(memberCharles);
-
+		
+		// have jason check something out
 		try {
-			ballardLibrary.checkoutItem(memberCharles, javaBook.getId());
-		} catch (LibraryMemberDoesNotExistException e) {
-			System.out.println("Throwing missing library member exception.");
-			e.printStackTrace();
-		} catch (LibraryItemDoesNotExistException e) {
-			System.out.println("Throwing missing library item exception.");
-			e.printStackTrace();
-		} finally {
-			System.out.println("checked out!");
-		}
-
-		try {
-			ballardLibrary.returnItem(memberCharles, slantedAndEnchanted.getId());
+			qaLibrary.checkoutItem(memberJason, scalaBook.getId());
 		} catch (LibraryMemberDoesNotExistException e) {
 			System.out.println("Throwing missing library member exception.");
 			e.printStackTrace();
